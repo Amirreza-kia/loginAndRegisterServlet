@@ -12,8 +12,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class UsersRepositoryImpl extends BaseRepositoryImpl<User,Long> implements UsersRepository {
+public class UsersRepositoryImpl extends BaseRepositoryImpl<User, Long> implements UsersRepository {
     private final EntityManagerFactory emf = JPAUtil.getEmf();
+
     @Override
     Class<User> getEntityClass() {
         return User.class;
@@ -29,6 +30,17 @@ public class UsersRepositoryImpl extends BaseRepositoryImpl<User,Long> implement
         cq.where(cb.equal(root.get("password"), password));
         TypedQuery<User> query = em.createQuery(cq);
         List<User> users = query.getResultList();
-       return users.isEmpty() ? null : users.get(0);
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    public User findByUsername(String username) {
+        EntityManager em = emf.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(getEntityClass());
+        Root<User> root = cq.from(getEntityClass());
+        cq.where(cb.equal(root.get("username"), username));
+        TypedQuery<User> query = em.createQuery(cq);
+        List<User> users = query.getResultList();
+        return users.isEmpty() ? null : users.get(0);
     }
 }

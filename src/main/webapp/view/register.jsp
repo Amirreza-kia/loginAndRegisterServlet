@@ -35,7 +35,7 @@
                         </div>
                         <div class="from-group" >
                             <label for="password">Password</label>
-                            <input name="password" id="password">
+                            <input name="password" type="password" id="password">
                         </div>
                         <button class="btn btn-danger">
                             Register
